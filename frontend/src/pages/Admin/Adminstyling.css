@@ -1,0 +1,19 @@
+.logo img {
+  height: 40px;
+  width: auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  width: auto;
+}
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: cursive;
+  color: #f64749;
+  white-space: nowrap;
+}
