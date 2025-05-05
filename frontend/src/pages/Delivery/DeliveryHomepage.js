@@ -3,14 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, Text, SimpleGrid, Flex, Icon, Avatar } from "@chakra-ui/react";
 import { FaWallet, FaClock, FaCheckCircle, FaTruck } from "react-icons/fa";
 import { getUserDetails } from "../../actions/userActions";
-import DeliveryOrdersPage from "./DeliveryOrdersPage";
+import { useNavigate } from "react-router-dom";
+import RecentOrders from "./RecentOrders";
 
 const DeliveryDashboard = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-  const userProfile = useSelector((state) => state.userDetails);
-  const { user } = userProfile;
+  // Combine user-related state selectors
+  const { userInfo } = useSelector((state) => state.userLogin);
+  const { user } = useSelector((state) => state.userDetails);
+  const orders = useSelector((state) => state.deliveryOrders.orders) || [];
 
   useEffect(() => {
     if (userInfo) {
@@ -18,14 +20,39 @@ const DeliveryDashboard = () => {
     }
   }, [dispatch, userInfo]);
 
+  const handleStatusClick = (status) => {
+    navigate(`/deliveryorders/${status}`);
+  };
+
+  // Compute order counts dynamically
+  const assignedCount =
+    orders?.filter((order) => !order.isDelivered && !order.isReturned).length ||
+    0;
+  const pausedCount =
+    orders?.filter((order) => order.status === "paused").length || 0;
+  const deliveredCount =
+    orders?.filter((order) => order.isDelivered).length || 0;
+  const returnedCount = orders?.filter((order) => order.isReturned).length || 0;
+  const canceledCount =
+    orders?.filter((order) => order.status === "canceled").length || 0;
+  const outForDeliveryCount =
+    orders?.filter((order) => order.isAcceptedByDelivery && !order.isDelivered)
+      .length || 0;
+
+  // Calculate Cash in Hand from completed orders
+  const cashInHand = orders
+    .filter((order) => order.isDelivered)
+    .reduce((sum, order) => sum + (order.totalPrice || 0), 0)
+    .toFixed(2);
+
   return (
     <>
       <Box
         p={5}
         m="10"
-        bg="#1E73BE"
+        bg="yellow"
         borderRadius="lg"
-        color="white"
+        color="black"
         textAlign="center"
       >
         {/* User Profile */}
@@ -38,7 +65,7 @@ const DeliveryDashboard = () => {
           <Box ml={3}>
             <Text fontSize="xl">Hi, {user?.name || "User"}</Text>
             <Text fontSize="2xl" fontWeight="bold">
-              $2,280.00
+              Rs. {cashInHand}
             </Text>
             <Text fontSize="sm">Balance</Text>
           </Box>
@@ -47,15 +74,17 @@ const DeliveryDashboard = () => {
         {/* Balance Stats */}
         <SimpleGrid columns={3} spacing={3}>
           {[
-            { label: "Cash in hand", value: "$0K" },
+            { label: "Cash in hand", value: `Rs. ${cashInHand}` },
             { label: "Pending withdraw", value: "$0K" },
             { label: "Withdrawn", value: "$0K" },
           ].map((item, index) => (
             <Box
               key={index}
               p={3}
-              bg="rgba(255, 255, 255, 0.2)"
+              bg="white"
               borderRadius="lg"
+              cursor="pointer"
+              _hover={{ bg: "gray.200" }}
             >
               <Text fontSize="lg" fontWeight="bold">
                 {item.value}
@@ -78,13 +107,47 @@ const DeliveryDashboard = () => {
         </Text>
         <Flex gap="5" justifyContent="center">
           {[
-            { label: "Assigned", value: 13, color: "blue.100", icon: FaTruck },
-            { label: "Paused", value: 1, color: "yellow.100", icon: FaClock },
+            {
+              label: "Assigned",
+              value: assignedCount,
+              color: "blue.100",
+              icon: FaTruck,
+              query: "asigned",
+            },
+            {
+              label: "Paused",
+              value: pausedCount,
+              color: "yellow.100",
+              icon: FaClock,
+              query: "paused",
+            },
             {
               label: "Delivered",
-              value: 10,
+              value: deliveredCount,
               color: "green.100",
               icon: FaCheckCircle,
+              query: "delivered",
+            },
+            {
+              label: "returned",
+              value: returnedCount,
+              color: "yellow.100",
+              icon: FaClock,
+              query: "returned",
+            },
+            {
+              label: "canceled",
+              value: canceledCount,
+              color: "red.100",
+              icon: FaClock,
+              query: "canceled",
+            },
+            {
+              label: "Out for Delivery",
+              value: outForDeliveryCount,
+              color: "green.100",
+              icon: FaTruck,
+              query: "outForDelivery",
             },
           ].map((status, index) => (
             <Flex
@@ -97,6 +160,9 @@ const DeliveryDashboard = () => {
               w="100%"
               maxWidth={300}
               mt={2}
+              cursor="pointer"
+              _hover={{ bg: "gray.200" }}
+              onClick={() => handleStatusClick(status.query)}
             >
               <Flex align="center">
                 <Icon as={status.icon} boxSize={6} mr={2} />
@@ -108,11 +174,8 @@ const DeliveryDashboard = () => {
             </Flex>
           ))}
         </Flex>
-        <Text fontSize="lg" fontWeight="bold" m="10">
-          Assigned Orders
-        </Text>
-        <DeliveryOrders />
       </Box>
+      <RecentOrders />
     </>
   );
 };

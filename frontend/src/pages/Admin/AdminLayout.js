@@ -34,6 +34,7 @@ const AdminLayout = ({ children }) => {
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isBannersOpen, setIsBannersOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
+  const [isDeliveryOpen, setIsDeliveryOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getOrderStatusCounts());
