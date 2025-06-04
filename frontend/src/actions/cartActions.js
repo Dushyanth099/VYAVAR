@@ -20,7 +20,7 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
   };
 
   const { data } = await axios.post(
-    `/api/products/${id}/addtocart`,
+    `${API_URL}/api/products/${id}/addtocart`,
     { id, qty },
     config
   );
@@ -40,7 +40,7 @@ export const fetchCart = () => async (dispatch, getState) => {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     };
 
-    const { data } = await axios.get(`/api/products/getcart`, config);
+    const { data } = await axios.get(`${API_URL}/api/products/getcart`, config);
 
     dispatch({
       type: CART_FETCH_ITEMS,
@@ -63,7 +63,7 @@ export const removeFromCart = (cartItemId) => async (dispatch, getState) => {
     };
     console.log("Deleting cart item ID:", cartItemId); // Debugging log
     const { data } = await axios.delete(
-      `/api/products/${cartItemId}/deletecart`,
+      `${API_URL}/api/products/${cartItemId}/deletecart`,
       config
     );
     dispatch({

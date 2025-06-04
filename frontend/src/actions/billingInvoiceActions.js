@@ -27,7 +27,7 @@ export const createBillingInvoice =
       };
 
       const { data } = await axios.post(
-        `/api/orders/billinginvoice`,
+        `${API_URL}/api/orders/billinginvoice`,
         invoiceData,
         config
       );
@@ -62,7 +62,7 @@ export const fetchBillingInvoice =
       };
 
       const { data } = await axios.get(
-        `/api/orders/${invoiceNumber}`,
+        `${API_URL}/api/orders/${invoiceNumber}`,
         config
       );
 

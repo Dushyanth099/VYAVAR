@@ -146,7 +146,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `/api/users/login`,
+      `${API_URL}/api/users/login`,
       { email, password },
       config
     );
@@ -189,7 +189,7 @@ export const register = (name, email, password, otp) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `/api/users`,
+      `${API_URL}/api/users`,
       { name, email, password, otp },
       config
     );
@@ -232,7 +232,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users/${id}`, config);
+    const { data } = await axios.get(`${API_URL}/api/users/${id}`, config);
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: data,
@@ -265,7 +265,7 @@ export const updateUserProfile = (formData) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/users/profile`, formData, config);
+    const { data } = await axios.put(`${API_URL}/api/users/profile`, formData, config);
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: data,
@@ -297,7 +297,7 @@ export const ListUsers = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users`, config);
+    const { data } = await axios.get(`${API_URL}/api/users`, config);
     dispatch({
       type: USER_LIST_SUCCESS,
       payload: data,
@@ -329,7 +329,7 @@ export const DeleteUser = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/users/${id}`, config);
+    await axios.delete(`${API_URL}/api/users/${id}`, config);
     dispatch({
       type: USER_DELETE_SUCCESS,
     });
@@ -361,7 +361,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/users/${user._id}`, user, config);
+    const { data } = await axios.put(`${API_URL}/api/users/${user._id}`, user, config);
     dispatch({
       type: USER_UPDATE_SUCCESS,
     });
@@ -398,7 +398,7 @@ export const fetchFavorites = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users/getfavorites`, config);
+    const { data } = await axios.get(`${API_URL}/api/users/getfavorites`, config);
 
     dispatch({ type: FAVORITES_SUCCESS, payload: data });
   } catch (error) {
@@ -426,7 +426,7 @@ export const toggleFavorite = (productId) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `/api/users/favorites/${productId}`,
+      `${API_URL}/api/users/favorites/${productId}`,
       {},
       config
     );
