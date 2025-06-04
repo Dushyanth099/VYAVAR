@@ -52,7 +52,11 @@ export const sendOtp = (email) => async (dispatch) => {
     dispatch({ type: USER_SEND_OTP_REQUEST });
 
     const config = { headers: { "Content-Type": "application/json" } };
-    const { data } = await axios.post("/api/users/sendOtp", { email }, config);
+    const { data } = await axios.post(
+      `${API_URL}/api/users/sendOtp`,
+      { email },
+      config
+    );
 
     dispatch({ type: USER_SEND_OTP_SUCCESS, payload: data.message });
   } catch (error) {
@@ -72,7 +76,7 @@ export const verifyOtp = (email, otp) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
-      "/api/users/verifyOtp",
+      `${API_URL}/api/users/verifyOtp`,
       { email, otp },
       config
     );
@@ -94,7 +98,7 @@ export const forgotPassword = (email) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
-      "/api/users/forgotPassword",
+      `${API_URL}/api/users/forgotPassword`,
       { email },
       config
     );
@@ -117,7 +121,7 @@ export const resetPassword = (email, otp, password) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
-      "/api/users/resetPassword",
+      `${API_URL}/api/users/resetPassword`,
       { email, otp, password },
       config
     );
@@ -265,7 +269,11 @@ export const updateUserProfile = (formData) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`${API_URL}/api/users/profile`, formData, config);
+    const { data } = await axios.put(
+      `${API_URL}/api/users/profile`,
+      formData,
+      config
+    );
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: data,
@@ -361,7 +369,11 @@ export const updateUser = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`${API_URL}/api/users/${user._id}`, user, config);
+    const { data } = await axios.put(
+      `${API_URL}/api/users/${user._id}`,
+      user,
+      config
+    );
     dispatch({
       type: USER_UPDATE_SUCCESS,
     });
@@ -398,7 +410,10 @@ export const fetchFavorites = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`${API_URL}/api/users/getfavorites`, config);
+    const { data } = await axios.get(
+      `${API_URL}/api/users/getfavorites`,
+      config
+    );
 
     dispatch({ type: FAVORITES_SUCCESS, payload: data });
   } catch (error) {
