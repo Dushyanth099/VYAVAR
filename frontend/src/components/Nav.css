@@ -1,5 +1,5 @@
 .nav {
-  background-color: black;
+  background-color: #000346;
   color: white;
   width: 100%;
   position: fixed;
@@ -53,17 +53,16 @@
   font-weight: bold;
   position: absolute;
   top: 10px;
-
-  color: #fff;
+  color: #000346;
   border-radius: 50%;
-  background-color: #0071dc;
+  background-color: white;
 }
 
 .search {
   display: none;
 }
 .logo img {
-  height: 40px;
+  height: 54px !important;
   width: auto;
 }
 
@@ -82,7 +81,7 @@
   white-space: nowrap;
 }
 .search-button {
-  background-color: black !important;
+  background-color: #000346 !important;
   color: white !important;
 }
 .search-input-group {
@@ -153,7 +152,7 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background:rgb(79, 207, 222);
+  background: #000346;
   width: auto;
   display: flex;
   padding: 15px;
@@ -178,7 +177,7 @@
   padding: 10px;
 }
 .category-column h4 {
-  color: #000000; /* Green highlight */
+  color: #ffb700; /* Green highlight */
   font-size: 20px;
   margin-bottom: 10px;
 }
@@ -196,7 +195,7 @@
   transition: color 0.3s ease;
 }
 .category-column li a:hover {
-  color: black;
+  color: #ffb700;
 }
 
 .nav-img {

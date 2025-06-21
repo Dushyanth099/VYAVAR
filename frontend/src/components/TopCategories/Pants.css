@@ -4,3 +4,9 @@
   background: white;
   border-radius: 10px;
 }
+.pantsimagehover:hover {
+  transform: scale(1.08);
+}
+.pantsimagehover {
+  transition: transform 0.4s ease;
+}

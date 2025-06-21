@@ -29,6 +29,7 @@ const BulkUploadPage = () => {
         status: "success",
         duration: 5000,
         isClosable: true,
+        position: "top-right",
       });
     }
 
@@ -42,6 +43,7 @@ const BulkUploadPage = () => {
         status: "error",
         duration: 5000,
         isClosable: true,
+        position: "top-right",
       });
     }
   }, [success, error, toast]);
@@ -55,6 +57,7 @@ const BulkUploadPage = () => {
         status: "error",
         duration: 5000,
         isClosable: true,
+        position: "top-right",
       });
       return;
     }
@@ -66,6 +69,7 @@ const BulkUploadPage = () => {
       status: "info",
       duration: 5000,
       isClosable: true,
+      position: "top-right",
     });
   };
 

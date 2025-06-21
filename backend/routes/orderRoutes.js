@@ -26,6 +26,7 @@ import {
 import { protect, admin, isDelivery } from "../middleware/authMiddleware.js";
 
 // userroutes
+router.route("/transactions").get(protect, admin, getTransactions);
 
 // user routes
 router.route("/myorders").get(protect, GetMyOrders);
@@ -55,7 +56,6 @@ router
   .put(protect, admin, assignOrderToDeliveryPerson);
 router.route("/admin/order/:id/invoice").get(protect, generateInvoice);
 router.route("/admin/incomebycity").get(protect, admin, incomebycity);
-router.route("/transactions").get(protect, admin, getTransactions);
 router.route("/billinginvoice").post(protect, admin, createBillingInvoice);
 router.route("/:invoiceNumber").get(protect, admin, getBillingInvoiceByNumber);
 

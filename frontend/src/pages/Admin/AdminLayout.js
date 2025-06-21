@@ -103,15 +103,26 @@ const AdminLayout = ({ children }) => {
       <Box display="flex">
         {/* Sidebar */}
         <Box
-          bg="#073b74"
+          bg="#000357"
           p={4}
           color="white"
           width={isSidebarOpen ? "280px" : "60px"}
-          height="100vh"
+          height="calc(100vh - 56px)" // Adjust height to account for navbar
           position="fixed"
           top="56px"
           transition="width 0.3s ease-in-out"
-          overflow="hidden"
+          overflowX="hidden"
+          overflowY="auto"
+          sx={{
+            // Hide scrollbar for WebKit (Chrome, Safari)
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+            // Hide scrollbar for Firefox
+            scrollbarWidth: "none",
+            // Hide scrollbar for IE/Edge
+            msOverflowStyle: "none",
+          }}
         >
           <VStack spacing={4} align="stretch" fontSize="md">
             {/* Toggle Sidebar Button */}

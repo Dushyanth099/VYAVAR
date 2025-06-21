@@ -55,7 +55,6 @@ import AdminTransactionsScreen from "./pages/Admin/AdminTransactionScreen";
 import BillingInvoice from "./pages/Admin/BillingInvoice";
 import ForgotPasswordScreen from "./components/ForgotPassword/ForgetPasswordScreen";
 import ResetPasswordScreen from "./components/ForgotPassword/ResetPasswordScreen";
-import ProductCustomizer from "./pages/customization/ProductCustomizer";
 // import ProtectedRoute from "./pages/ProtectedRoutes";
 const App = () => {
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -208,10 +207,7 @@ const App = () => {
                     exact
                   />
                   <Route path="/products/" element={<ProductsListPage />} />
-                  <Route
-                    path="/product/:id/customize"
-                    element={<ProductCustomizer />}
-                  />
+                
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>
                 <ScrollButtons />

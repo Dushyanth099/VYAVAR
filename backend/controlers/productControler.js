@@ -229,11 +229,15 @@ const createProduct = asyncHandler(async (req, res) => {
     shippingDetails,
     isFeatured,
   } = req.body;
-  if (!req.files || req.files.length === 0) {
-    res.status(400).json({ message: "No images uploaded" });
+  if (!req.files || (!req.files["images"] && !req.files["sizeChart"])) {
+    res.status(400).json({ message: "No files uploaded" });
     return;
   }
-  const images = req.files.map((file) => file.path);
+  const images = req.files["images"]?.map((file) => file.path) || [];
+  const sizeChart = req.files["sizeChart"]?.[0]?.path || "";
+
+  //  console.log("📄 Uploaded sizeChart:", sizeChart);
+
   const parsedProductDetails =
     typeof productdetails === "string"
       ? JSON.parse(productdetails)
@@ -281,6 +285,7 @@ const createProduct = asyncHandler(async (req, res) => {
     description,
     user: req.user._id,
     images,
+    sizeChart,
     SKU,
     productdetails: {
       gender,
@@ -297,6 +302,7 @@ const createProduct = asyncHandler(async (req, res) => {
     numReviews: 0,
     isFeatured,
   });
+  console.log("product details", product);
   const createProduct = await product.save();
   res.status(201).json(createProduct);
 });
@@ -392,9 +398,19 @@ const updateProduct = asyncHandler(async (req, res) => {
       product.oldPrice = oldPrice;
       product.discount = discount;
 
-      if (req.files?.length > 0) {
-        product.images = req.files.map((file) => file.path);
+      // Handle file updates
+      if (req.files) {
+        // Update images if new ones are uploaded
+        if (req.files["images"]) {
+          product.images = req.files["images"].map((file) => file.path);
+        }
+
+        // Update size chart if new PDF is uploaded
+        if (req.files["sizeChart"]) {
+          product.sizeChart = req.files["sizeChart"][0].path;
+        }
       }
+
       const updatedProduct = await product.save();
       console.log("Updated product:", updatedProduct);
       res.json(updatedProduct);
@@ -617,88 +633,6 @@ const getPendingReviews = asyncHandler(async (req, res) => {
   }
 });
 
-const customizeProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
-
-  if (!product) {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-
-  if (
-    !product.customizationOptions ||
-    !product.customizationOptions.allowCustomization
-  ) {
-    res.status(400);
-    throw new Error("This product does not support customization");
-  }
-
-  res.json(product.customizationOptions);
-});
-
-const saveCustomization = asyncHandler(async (req, res) => {
-  const { designData, textConfig } = req.body;
-  const product = await Product.findById(req.params.id);
-
-  if (!product) {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-
-  const newDesign = {
-    user: req.user._id,
-    designData,
-    textConfig,
-    approved: false,
-  };
-
-  product.customDesigns.push(newDesign);
-  await product.save();
-
-  res.status(201).json(newDesign);
-});
-
-const getCustomizations = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id).populate(
-    "customDesigns.user",
-    "name email"
-  );
-
-  if (!product) {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-
-  // Filter only unapproved designs for admin
-  const designsToApprove = product.customDesigns.filter(
-    (design) => !design.approved
-  );
-
-  res.json(designsToApprove);
-});
-
-const approveCustomization = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
-
-  if (!product) {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-
-  const designIndex = product.customDesigns.findIndex(
-    (design) => design._id.toString() === req.params.designId
-  );
-
-  if (designIndex === -1) {
-    res.status(404);
-    throw new Error("Design not found");
-  }
-
-  product.customDesigns[designIndex].approved = true;
-  await product.save();
-
-  res.json({ message: "Design approved successfully" });
-});
 export {
   getProducts,
   deleteProduct,
@@ -712,8 +646,4 @@ export {
   getProductById,
   approveReview,
   getPendingReviews,
-  customizeProduct,
-  saveCustomization,
-  getCustomizations,
-  approveCustomization,
 };

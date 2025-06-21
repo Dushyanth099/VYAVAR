@@ -148,15 +148,15 @@ form {
 }
 
 .btna {
-  display: block;
-  width: 100%;
-  height: 50px;
+  display: inline-block;
+  width: 80%;
+  height: 35px;
   border-radius: 25px;
   outline: none;
   border: none;
   background-color: black;
-  background-size: 200%;
-  font-size: 1.2rem;
+  /* background-size: 200%; */
+  font-size: 16px;
   color: #fff;
   font-family: "Poppins", sans-serif;
   text-transform: uppercase;
@@ -220,12 +220,12 @@ form {
 }
 
 .text-forgot {
-  color: white;
+  color: #000357;
 }
 
 .login-content h1 {
   font-size: 30px;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   font-weight: 650;
 }
 

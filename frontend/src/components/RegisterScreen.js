@@ -43,6 +43,7 @@ const RegisterScreen = () => {
       return toast({
         title: "Enter Your Email First",
         description: otpVerifyError,
+        position: "top-right",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -54,6 +55,7 @@ const RegisterScreen = () => {
       setOtpSent(true);
       toast({
         title: "OTP sent successfully",
+        position: "top-right",
         description: "Check your email for the OTP.",
         status: "success",
         duration: 5000,
@@ -66,6 +68,7 @@ const RegisterScreen = () => {
     if (!otp)
       return toast({
         title: "Enter OTP First",
+        position: "top-right",
         description: otpVerifyError,
         status: "error",
         duration: 5000,
@@ -148,14 +151,10 @@ const RegisterScreen = () => {
   return (
     <>
       <div className="registerSc">
-        <Helmet>
-          <title>Register</title>
-        </Helmet>
-
         <div className="containera">
           <div className="login-content">
             <form onSubmit={handleRegister}>
-              <h1>Create Account</h1>
+              <h1>Register</h1>
               {message && <h4>{message}</h4>}
               {error && <h4>{error}</h4>}
               {otpVerifyError && <h4>{otpVerifyError}</h4>}
@@ -163,37 +162,57 @@ const RegisterScreen = () => {
                 <div className="i">
                   <i className="fas fa-user"></i>
                 </div>
-                <div className="form-row">
-                  <label>Name:</label>
-                  <input
-                    type="text"
-                    value={name}
-                    className="inputa"
-                    placeholder="Enter name"
-                    onChange={(e) => setName(e.target.value)}
-                  />
+                <div className="form-flex">
+                  <div className="form-row">
+                    <label>Name</label>
+                  </div>
+                  <div className="form-column">
+                    <input
+                      type="text"
+                      value={name}
+                      className="inputa"
+                      placeholder="Enter name"
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="">
                 <div className="i">
                   <i className="fas fa-envelope"></i>
                 </div>
-                <div className="form-row">
-                  <label>Email:</label>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "8px",
-                      flex: 1,
-                      alignItems: "center",
-                    }}
-                  >
+                <div className="form-flex">
+                  <div className="form-row">
+                    <label>Email</label>
+                  </div>
+                  <div className="form-column">
+                    <div>
+                      <input
+                        type="text"
+                        value={email}
+                        className="inputa"
+                        placeholder="Enter email"
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="">
+                <div className="i">
+                  <i className="fas fa-lock"></i>
+                </div>
+                <div className="form-flex">
+                  <div className="form-row">
+                    <label>Password</label>
+                  </div>
+                  <div className="form-column">
                     <input
-                      type="text"
-                      value={email}
+                      type={showPassword ? "text" : "password"}
+                      value={password}
                       className="inputa"
-                      placeholder="Enter email"
-                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter password"
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                 </div>
@@ -202,42 +221,31 @@ const RegisterScreen = () => {
                 <div className="i">
                   <i className="fas fa-lock"></i>
                 </div>
-                <div className="form-row">
-                  <label>Password:</label>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    className="inputa"
-                    placeholder="Enter password"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="">
-                <div className="i">
-                  <i className="fas fa-lock"></i>
-                </div>
-                <div className="form-row">
-                  <label>Confirm Password:</label>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={confirmPassword}
-                    className="inputa"
-                    placeholder="Confirm password"
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                  <span
-                    onClick={togglePasswordVisibility}
-                    style={{
-                      position: "absolute",
-                      right: "50px",
-                      top: "45%",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {showPassword ? "🙈" : "👁️"}
-                  </span>
+                <div className="form-flex">
+                  <div className="form-row">
+                    <label>Confirm Password</label>
+                  </div>
+                  <div className="form-column">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={confirmPassword}
+                      className="inputa"
+                      placeholder="Confirm password"
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <span
+                      onClick={togglePasswordVisibility}
+                      style={{
+                        position: "absolute",
+                        right: "80px",
+                        top: "51%",
+                        transform: "translateY(-50%)",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {showPassword ? "🙈" : "👁️"}
+                    </span>
+                  </div>
                 </div>
               </div>
               {message && <h4>{message}</h4>}
@@ -257,7 +265,7 @@ const RegisterScreen = () => {
                     display: "flex",
                     gap: "10px",
                     marginTop: "15px",
-                    height: "50px",                  
+                    height: "50px",
                   }}
                 >
                   <input

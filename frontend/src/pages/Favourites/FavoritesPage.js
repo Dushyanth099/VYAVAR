@@ -14,6 +14,7 @@ import Trust from "../../components/Trustdetails/Trust";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const FavoritesPage = () => {
+  const { userInfo } = useSelector((state) => state.userLogin);
   const dispatch = useDispatch();
   const { favoriteItems, loading, error } = useSelector(
     (state) => state.favorites
@@ -26,6 +27,17 @@ const FavoritesPage = () => {
   const handleFavoriteToggle = (productId) => {
     dispatch(toggleFavorite(productId));
   };
+
+  if (!userInfo) {
+    return (
+      <Box textAlign="center" mt={20} p={6} minH={"30vh"}>
+        <Text fontSize="2xl" fontWeight="bold" mb={4}>
+          You are not logged in.
+        </Text>
+        <Text>Please log in to view your favorites. ❤️</Text>
+      </Box>
+    );
+  }
 
   if (loading)
     return (

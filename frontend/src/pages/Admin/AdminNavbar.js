@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../actions/userActions";
-import Logo from "../../assets/ecommerce-logo.png";
+import Logo from "../../assets/VIYAVAR.png";
 import "./Adminstyling.css";
 import { NavLink } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
@@ -52,9 +52,9 @@ const AdminNavbar = () => {
       <Flex align="center" justifyContent="space-between">
         {/* Navbar Logo */}
         <Box fontWeight="bold" fontSize="lg">
-          <NavLink to="/adminDashboard" className="logo">
+          <NavLink to="/adminDashboard" className="logoimg">
             <img src={Logo} alt="logo" />
-            <span className="logo-text">E-Commerce</span>
+            {/* <span className="logoimg-text">E-Commerce</span> */}
           </NavLink>
         </Box>
 
@@ -74,12 +74,12 @@ const AdminNavbar = () => {
                   onError={(e) => (e.target.style.display = "none")}
                 />
               ) : (
-                <CgProfile size="25" className="settingIcon" />
+                <CgProfile size="25" className="settingIcon" color="black" />
               )}
               <span style={{ color: "black" }}>{user?.name}</span>
             </RouterLink>
           </div>
-          <Button bg="violet" onClick={onOpen}>
+          <Button bg="#ffb700" color="white" onClick={onOpen}>
             Logout
           </Button>
           <AlertDialog

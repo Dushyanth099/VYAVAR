@@ -11,10 +11,6 @@ import {
   productreviewCreateReducer,
   reviewApproveReducer,
   reviewListReducer,
-  productCustomizationsListReducer,
-  productSaveCustomizationReducer,
-  productCustomizationReducer,
-  productApproveCustomizationReducer,
 } from "./reducers/productReducers";
 
 import { cartReducer } from "./reducers/cartReducers";
@@ -150,10 +146,6 @@ const reducer = combineReducers({
   deliveryMyTransactions: deliveryMyTransactionsReducer,
   billingInvoiceCreate: billingInvoiceCreateReducer,
   billingInvoiceDetails: billingInvoiceDetailsReducer,
-  productCustomization: productCustomizationReducer,
-  productCustomizationsList: productCustomizationsListReducer,
-  productApproveCustomization: productApproveCustomizationReducer,
-  productSaveCustomization: productSaveCustomizationReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

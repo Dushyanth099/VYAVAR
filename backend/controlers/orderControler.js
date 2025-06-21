@@ -52,7 +52,16 @@ const addorderitems = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(req.user._id, {
       $push: { orderHistory: createdOrder._id },
     });
-
+    // REMOVE CARTITEMS AFTER PURCHASED PRODUCT STARTS
+    try {
+      await User.findByIdAndUpdate(req.user._id, {
+        $set: { cartItems: [] },
+      });
+      console.log("🧹 User cartItems cleared");
+    } catch (err) {
+      console.error("❌ Failed to clear cartItems:", err.message);
+    }
+    // REMOVE CARTITEMS AFTER PURCHASED PRODUCT ENDS
     res.status(201).json(createdOrder);
   }
 });

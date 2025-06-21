@@ -67,7 +67,7 @@ const CardProduct = ({ product }) => {
       description: `Click to view details.`,
       status: "success",
       duration: 5000,
-      position: "bottom",
+      position: "top-right",
       isClosable: true,
     });
     setIncart(true);

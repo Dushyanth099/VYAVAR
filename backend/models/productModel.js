@@ -1,40 +1,5 @@
 import mongoose from "mongoose";
 
-const customizationOptionsSchema = new mongoose.Schema({
-  allowCustomization: {
-    type: Boolean,
-    default: false,
-  },
-  baseImages: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-  allowedFonts: [
-    {
-      type: String,
-      default: ["Arial", "Times New Roman", "Courier New", "Verdana"],
-    },
-  ],
-  allowedColors: [
-    {
-      type: String,
-      default: ["#000000", "#FFFFFF", "#FF0000", "#00FF00", "#0000FF"],
-    },
-  ],
-  textPositionOptions: [
-    {
-      type: String,
-      enum: ["top", "center", "bottom"],
-      default: ["top", "center", "bottom"],
-    },
-  ],
-  maxTextLength: {
-    type: Number,
-    default: 50,
-  },
-});
 const reviewSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -189,31 +154,10 @@ const productSchema = mongoose.Schema(
       },
     },
     isFeatured: { type: Boolean, default: false },
-    customizationOptions: customizationOptionsSchema,
-    customDesigns: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-        designData: String, // Base64 encoded image
-        textConfig: {
-          content: String,
-          fontFamily: String,
-          fontSize: Number,
-          color: String,
-          position: String,
-        },
-        approved: {
-          type: Boolean,
-          default: false,
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
+    sizeChart: {
+      type: String, // This will store the PDF file path/URL
+      default: "",
+    },
   },
   {
     timestamps: true,

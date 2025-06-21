@@ -28,7 +28,7 @@ const DiscountTag = () => {
     <Box position="fixed" top="40%" right="0" zIndex="2000">
       <Button
         onClick={toggleDiscount}
-        bg="pink.800"
+        bg="#000346"
         color="white"
         transform="rotate(-90deg)"
         transformOrigin="right center"
@@ -41,7 +41,7 @@ const DiscountTag = () => {
         fontSize={30}
         borderRadius="0"
         zIndex="2001"
-        _hover={{ bg: "pink.700" }}
+        _hover={{ bg: "#ffb700" }}
         rightIcon={<Icon as={FaCaretUp} />}
       >
         GET 50% OFF
@@ -50,7 +50,7 @@ const DiscountTag = () => {
       {isOpen && (
         <Box
           position="fixed"
-          top="58%"
+          top="61%"
           right="40px"
           transform="translateY(-50%)"
           boxShadow="xl"

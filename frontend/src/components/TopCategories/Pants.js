@@ -59,7 +59,7 @@ const Pants = () => {
                 overflow="hidden"
                 color="black"
                 width="270px"
-                height="490px"
+                height="380px"
                 position="relative"
               >
                 {/* Product Image */}
@@ -79,6 +79,7 @@ const Pants = () => {
                       width="100%"
                       height="100%"
                       borderRadius="xl"
+                      className="pantsimagehover"
                     />
                   </Box>
                 </Link>

@@ -78,6 +78,8 @@ const Productpage = () => {
     productReviewCreate;
   const availableSizes = product?.productdetails?.sizes || [];
   const [selectedSize, setSelectedSize] = useState("");
+  const [showPDF, setShowPDF] = useState(false);
+  const togglePDF = () => setShowPDF((prev) => !prev);
   imgBtns.forEach((imgItem) => {
     imgItem.addEventListener("click", (event) => {
       event.preventDefault();
@@ -164,7 +166,7 @@ const Productpage = () => {
       description: "View your product in the cart page.",
       status: "success",
       duration: 5000,
-      position: "bottom",
+      position: "top-right",
       isClosable: true,
     });
   };
@@ -289,11 +291,11 @@ const Productpage = () => {
                           key={size}
                           onClick={() => setSelectedSize(size)}
                           border="2px solid"
-                          borderColor="black"
-                          bg={selectedSize === size ? "black" : "white"}
-                          color={selectedSize === size ? "white" : "black"}
+                          borderColor="#000346"
+                          bg={selectedSize === size ? "#000346" : "white"}
+                          color={selectedSize === size ? "white" : "#000346"}
                           _hover={{
-                            bg: selectedSize === size ? "black" : "gray.100",
+                            bg: selectedSize === size ? "#000346" : "gray.100",
                           }}
                           px={6} // Increase padding for width
                           py={4} // Increase padding for height
@@ -305,15 +307,59 @@ const Productpage = () => {
                         </Button>
                       ))}
                     </HStack>
+                    <Divider my={3} />
+                    {product.sizeChart ? (
+                      <>
+                        <Button
+                          background="#000346"
+                          color={"white"}
+                          size="sm"
+                          onClick={togglePDF}
+                          mb={2}
+                          _hover={{
+                            bg:"black",
+                          }}
+                        >
+                          {showPDF ? "Close" : "Size Chart"}
+                        </Button>
+
+                        {showPDF && (
+                          <iframe
+                            src={`https://docs.google.com/gview?url=${encodeURIComponent(
+                              product.sizeChart
+                            )}&embedded=true`}
+                            title="Size Chart PDF"
+                            width="100%"
+                            height="500px"
+                            style={{
+                              border: "1px solid #ccc",
+                              borderRadius: "8px",
+                              marginTop: "10px",
+                            }}
+                          />
+                        )}
+                      </>
+                    ) : (
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          marginBottom: "5px",
+                        }}
+                      >
+                        Sizechart: Not Available    
+                      </p>
+                    )}
+
                     <HStack spacing={4} mt="5" mb="5">
                       <Button
                         onClick={addToCartHandler}
                         type="button"
                         disabled={product.countInStock === 0}
                         border="2px solid"
-                        borderColor="black"
+                        borderColor="#000346"
                         bg="white"
-                        color="black"
+                        color="#000346"
                         fontWeight="bold"
                         px={8} // Increase padding for width
                         py={5} // Increase padding for height
@@ -329,36 +375,18 @@ const Productpage = () => {
                         onClick={addToCartHandler}
                         type="button"
                         disabled={product.countInStock === 0}
-                        bg="black"
+                        bg="#000346"
                         color="white"
                         px={8} // Increase padding for width
                         py={5} // Increase padding for height
                         minW="150px" // Ensures buttons are wider
                         minH="60px"
                         borderRadius="md"
-                        _hover={{ bg: "gray.800" }}
+                        _hover={{ bg: "black", color: "white" }}
                       >
                         Add to Bag
                       </Button>
                     </HStack>
-
-                    {/* 👇 Add this block below your existing buttons */}
-
-                    {/* <Link to={`/product/${product._id}/customize`}>
-                      <Button
-                        bg="teal.500"
-                        color="white"
-                        px={8}
-                        py={5}
-                        minW="150px"
-                        minH="60px"
-                        borderRadius="md"
-                        _hover={{ bg: "teal.600" }}
-                        mb={4}
-                      >
-                        Customize
-                      </Button>
-                    </Link> */}
 
                     {product.countInStock === 0 && (
                       <Text

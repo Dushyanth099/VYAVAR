@@ -303,7 +303,7 @@ const Checkout = () => {
               </Text>
             </HStack>
           </Box>
-          <Button bg="black" color="white" size="lg" w="full" onClick={onOpen}>
+          <Button bg="#000346" color="white" size="lg" w="full" onClick={onOpen}>
             Pay ₹{totalPrice}
           </Button>
         </VStack>
@@ -312,6 +312,7 @@ const Checkout = () => {
         isOpen={isOpen}
         onClose={onClose}
         handleOrder={handleOrder}
+        totalPrice={totalPrice}
       />
     </Box>
   );

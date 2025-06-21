@@ -41,6 +41,7 @@ const Editproduct = () => {
   const [isFeatured, setIsFeatured] = useState(false);
   const [SKU, setSKU] = useState("");
   const [newImages, setNewImages] = useState([]);
+  const [sizeChart, setSizeChart] = useState("");
   const [productdetails, setProductdetails] = useState({
     gender: "",
     category: "",
@@ -146,6 +147,15 @@ const Editproduct = () => {
       setNewImages(updatedNewImages);
     }
   };
+  const handleSizeChartUpload = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === "application/pdf") {
+      setSizeChart(file);
+      console.log("PDF file selected:", file);
+    } else {
+      setMessage("Please upload a PDF file");
+    }
+  };
   const handleSizeChange = (size) => {
     setProductdetails((prevDetails) => {
       const newSizes = prevDetails.sizes.includes(size)
@@ -231,6 +241,9 @@ const Editproduct = () => {
         formData.append("images", file);
       }
     });
+    if (sizeChart instanceof File) {
+      formData.append("sizeChart", sizeChart);
+    }
     for (const [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
     }
@@ -477,6 +490,44 @@ const Editproduct = () => {
                 </Checkbox>
               ))}
             </Stack>
+          </FormControl>
+          {/* Size Chart PDF Upload */}
+          <FormControl mt={4}>
+            <FormLabel>Size Chart PDF</FormLabel>
+            <Flex align="center" mt={2}>
+              <Input
+                type="file"
+                name="sizeChart"
+                accept="application/pdf"
+                onChange={handleSizeChartUpload}
+                border="none"
+                p={1}
+                w="auto"
+                id="sizeChartUpload"
+                hidden
+              />
+              <Button
+                onClick={() =>
+                  document.getElementById("sizeChartUpload").click()
+                }
+                colorScheme="teal"
+                variant="outline"
+                leftIcon={<FaEdit />}
+              >
+                Upload PDF
+              </Button>
+              {/* Add this button below the PDF upload */}
+
+              {sizeChart && (
+                <Text ml={3} fontSize="sm" color="gray.600">
+                  {sizeChart.name}
+                </Text>
+              )}
+            </Flex>
+            <Text fontSize="sm" color="gray.500" mt={1}>
+              Upload size chart documentation (PDF only)
+            </Text>
+              
           </FormControl>
           <Heading size="md" color="teal.600" fontWeight="bold" mb={4}>
             🚚 Shipping Details

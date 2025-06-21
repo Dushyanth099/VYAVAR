@@ -30,18 +30,7 @@ import {
   REVIEW_APPROVE_REQUEST,
   REVIEW_APPROVE_SUCCESS,
   REVIEW_APPROVE_FAIL,
-  PRODUCT_CUSTOMIZE_REQUEST,
-  PRODUCT_CUSTOMIZE_SUCCESS,
-  PRODUCT_CUSTOMIZE_FAIL,
-  PRODUCT_SAVE_CUSTOMIZATION_REQUEST,
-  PRODUCT_SAVE_CUSTOMIZATION_SUCCESS,
-  PRODUCT_SAVE_CUSTOMIZATION_FAIL,
-  PRODUCT_GET_CUSTOMIZATIONS_REQUEST,
-  PRODUCT_GET_CUSTOMIZATIONS_SUCCESS,
-  PRODUCT_GET_CUSTOMIZATIONS_FAIL,
-  PRODUCT_APPROVE_CUSTOMIZATION_REQUEST,
-  PRODUCT_APPROVE_CUSTOMIZATION_SUCCESS,
-  PRODUCT_APPROVE_CUSTOMIZATION_FAIL,
+ 
 } from "../constants/productConstants";
 export const productListReducer = (state = { products: [] }, action) => {
   switch (action.type) {
@@ -164,60 +153,6 @@ export const reviewApproveReducer = (state = {}, action) => {
     case REVIEW_APPROVE_SUCCESS:
       return { loading: false, success: true };
     case REVIEW_APPROVE_FAIL:
-      return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-export const productCustomizationReducer = (state = {}, action) => {
-  switch (action.type) {
-    case PRODUCT_CUSTOMIZE_REQUEST:
-      return { loading: true };
-    case PRODUCT_CUSTOMIZE_SUCCESS:
-      return { loading: false, customizationOptions: action.payload };
-    case PRODUCT_CUSTOMIZE_FAIL:
-      return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const productSaveCustomizationReducer = (state = {}, action) => {
-  switch (action.type) {
-    case PRODUCT_SAVE_CUSTOMIZATION_REQUEST:
-      return { loading: true };
-    case PRODUCT_SAVE_CUSTOMIZATION_SUCCESS:
-      return { loading: false, success: true, design: action.payload };
-    case PRODUCT_SAVE_CUSTOMIZATION_FAIL:
-      return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const productCustomizationsListReducer = (
-  state = { designs: [] },
-  action
-) => {
-  switch (action.type) {
-    case PRODUCT_GET_CUSTOMIZATIONS_REQUEST:
-      return { loading: true, designs: [] };
-    case PRODUCT_GET_CUSTOMIZATIONS_SUCCESS:
-      return { loading: false, designs: action.payload };
-    case PRODUCT_GET_CUSTOMIZATIONS_FAIL:
-      return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const productApproveCustomizationReducer = (state = {}, action) => {
-  switch (action.type) {
-    case PRODUCT_APPROVE_CUSTOMIZATION_REQUEST:
-      return { loading: true };
-    case PRODUCT_APPROVE_CUSTOMIZATION_SUCCESS:
-      return { loading: false, success: true };
-    case PRODUCT_APPROVE_CUSTOMIZATION_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

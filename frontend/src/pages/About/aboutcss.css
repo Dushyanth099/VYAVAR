@@ -35,7 +35,7 @@
 }
 .Content1,
 .Content2 {
-  color: white;
+  color: black;
   text-align: justify;
   display: grid;
   column-gap: 60px;

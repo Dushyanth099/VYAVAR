@@ -29,7 +29,7 @@
 
 .offerscard:hover {
   transform: translateY(-10px);
-  background-color:rgb(56, 193, 193)
+  background-color: #000346;
 }
 
 .offersimage img {

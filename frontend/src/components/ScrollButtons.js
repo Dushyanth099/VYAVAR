@@ -32,9 +32,10 @@ const ScrollButton = () => {
         aria-label="Scroll Button"
         size="lg"
         borderRadius="full"
-        bg="white"
+        bg="#000346"
+        color="white"
         boxShadow="md"
-        _hover={{ bg: "gray.100" }}
+        _hover={{ bg: "#ffb700", color: "black" }}
       />
     </Box>
   );

@@ -113,7 +113,7 @@ const ProfileScreen = ({ history }) => {
       status: "success",
       duration: 3000,
       isClosable: true,
-      position: "top",
+      position: "top-right",
     });
   };
   // 🟢 Sidebar Menu Options

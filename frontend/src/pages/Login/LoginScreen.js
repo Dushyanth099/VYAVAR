@@ -8,12 +8,14 @@ import login from "../../actions/userActions";
 import "./logincss.css";
 import { useLocation } from "react-router-dom";
 import Trust from "../../components/Trustdetails/Trust";
+import { useToast } from "@chakra-ui/react";
 
 const LoginScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
@@ -44,6 +46,18 @@ const LoginScreen = () => {
   //     navigate(redirect);
   //   }
   // }, [navigate, userInfo, redirect]);
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Login Failed",
+        description: error,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }, [error, toast]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -72,55 +86,59 @@ const LoginScreen = () => {
   return (
     <>
       <div className="registerSc">
-        <Helmet>
-          <title>Login</title>
-        </Helmet>
-
         <div className="containera">
           <div className="login-content">
             <form onSubmit={submitHandler}>
-              <h1>Member Login</h1>
-              {error && <h4>{error}</h4>}
+              <h1>Login</h1>
+
               <div className="">
                 <div className="i">
                   <i class="fas fa-envelope"></i>
                 </div>
-                <div className="form-row">
-                  <label>Email:</label>
-                  <input
-                    type="text"
-                    value={email}
-                    className="inputa"
-                    placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                <div className="form-flex">
+                  <div className="form-row">
+                    <label>Email</label>
+                  </div>
+                  <div className="form-column">
+                    <input
+                      type="text"
+                      value={email}
+                      className="inputa"
+                      placeholder="Email"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="">
                 <div className="i">
                   <i className="fas fa-lock"></i>
                 </div>
-                <div className="form-row">
-                  <label>Password:</label>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    className="inputa"
-                    placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <span
-                    onClick={togglePasswordVisibility}
-                    style={{
-                      position: "absolute",
-                      right: "50px",
-                      top: "45%",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {showPassword ? "🙈" : "👁️"}
-                  </span>
+                <div className="form-flex">
+                  <div className="form-row">
+                    <label>Password</label>
+                  </div>
+                  <div className="form-column">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      className="inputa"
+                      placeholder="Password"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <span
+                      onClick={togglePasswordVisibility}
+                      style={{
+                        position: "absolute",
+                        right: "75px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {showPassword ? "🙈" : "👁️"}
+                    </span>
+                  </div>
                 </div>
               </div>
 

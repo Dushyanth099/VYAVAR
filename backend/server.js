@@ -23,7 +23,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-// https://tiscon.vercel.app
+// https://vyavar.vercel.app         http://localhost:3000
 app.use(express.json());
 
 if (process.env.NODE_ENV === "development") {

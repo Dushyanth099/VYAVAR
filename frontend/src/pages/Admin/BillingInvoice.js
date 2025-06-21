@@ -105,6 +105,7 @@ const BillingInvoice = () => {
         status: "success",
         duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
       setForm({
         logo: Logo,
@@ -139,6 +140,7 @@ const BillingInvoice = () => {
         status: "error",
         duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
     }
   }, [success, error, toast]);
@@ -193,6 +195,7 @@ const BillingInvoice = () => {
         status: "warning",
         duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
       return;
     }

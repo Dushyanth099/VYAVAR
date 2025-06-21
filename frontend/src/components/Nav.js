@@ -24,7 +24,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { IoLogOutOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { logout } from "../actions/userActions";
-import Logo from "../assets/ecommerce-logo.png";
+import Logo from "../assets/LOGO PNG.png";
 import navheart from "../assets/navheart.svg";
 import Categorylist from "./Categorylist/Categorylist";
 import Brandlist from "./Brandlist/Brandlist";
@@ -110,7 +110,7 @@ const Nav = () => {
       </Box>
       <NavLink to="/" className="logo">
         <img src={Logo} alt="logo" />
-        <span className="logo-text">Vyavar</span>
+        {/* <span className="logo-text">Vyavar</span> */}
       </NavLink>
 
       <div className="search-container">
@@ -287,7 +287,7 @@ const Nav = () => {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent bg="orange.400" color="white">
+        <DrawerContent bg="#000357" color="white">
           <DrawerCloseButton />
           <DrawerBody>
             <ul

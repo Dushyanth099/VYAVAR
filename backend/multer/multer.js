@@ -21,12 +21,15 @@ const storage = new CloudinaryStorage({
     } else if (file.mimetype.startsWith("video")) {
       folder = "videos";
       resourceType = "video";
+    } else if (file.mimetype === "application/pdf") {
+      folder = "pdfs";
+      resourceType = "raw"; // PDFs are treated as raw files
     }
 
     return {
       folder,
       resource_type: resourceType,
-      allowed_formats: ["jpg", "jpeg", "png", "mp4", "avi"],
+      allowed_formats: ["jpg", "jpeg", "png", "mp4", "avi", "pdf"],
       public_id: `${Date.now()}-${file.originalname}`,
     };
   },
@@ -42,13 +45,14 @@ const upload = multer({
       "image/jpg",
       "video/mp4",
       "video/avi",
+      "application/pdf",
     ];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
       cb(
         new Error(
-          "Invalid file type. Only JPG, JPEG, PNG, MP4, and AVI are allowed."
+          "Invalid file type. Only JPG, JPEG, PNG, MP4, AVI and PDF are allowed."
         ),
         false
       );
@@ -62,3 +66,7 @@ export const uploadProfileImage = upload.single("profilePicture");
 export const uploadSingleImage = upload.single("image");
 export const uploadMultipleImages = upload.array("images", 3);
 export const uploadSingleVideo = upload.single("video");
+export const uploadProductFiles = upload.fields([
+  { name: "images", maxCount: 3 },
+  { name: "sizeChart", maxCount: 1 },
+]);

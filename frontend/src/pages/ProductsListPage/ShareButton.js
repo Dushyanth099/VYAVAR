@@ -22,6 +22,7 @@ const ShareButton = ({ url }) => {
         status: "success",
         duration: 2000,
         isClosable: true,
+        position: "top-right",
       });
     }
   };
