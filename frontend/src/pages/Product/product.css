@@ -12,14 +12,6 @@
   margin-top: 70px;
   background-color: white;
 }
-.card-wrapper {
-  margin-top: 130px;
-  max-width: 1400px; /* Limit the maximum width for better alignment */
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
 
 /* image */
 .img-display {
@@ -68,7 +60,7 @@
 .img-item a:hover {
   border: 2px solid #256eff;
 }
-.zoomed-image {
+/* .zoomed-image {
   width: 700px;
   height: 600px;
   border: 2px solid #ddd;
@@ -79,14 +71,110 @@
   display: block;
   pointer-events: none;
   z-index: 900;
+} */
+.zoomed-image {
+  position: fixed; /* use fixed instead of absolute */
+  top: 145px; /* match your sticky image top */
+  left: 60%; /* show on right side, adjust if needed */
+  width: 580px;
+  height: 500px;
+  background-repeat: no-repeat;
+  background-size: 200%;
+  border: 2px solid #ddd;
+  pointer-events: none;
+  z-index: 999;
+  background-position: center;
+}
+.card-wrapper {
+  margin-top: 130px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.card {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  grid-gap: 1.5rem;
+  box-sizing: border-box;
+}
+.product-imgs {
+  position: sticky;
+  margin-top: 15px;
+  top: 100px;
+  height: fit-content;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  z-index: 1;
+}
+.product-content {
+  padding-top: 0;
+  background-color: white;
+  scrollbar-width: none; /* Firefox */
+}
+.product-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
-/* product */
-.product-content {
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .card {
+    grid-template-columns: 1fr; /* Switch to single column on smaller screens */
+  }
+
+  .img-select {
+    flex-direction: column; /* Thumbnails remain horizontal on mobile */
+    width: 300px;
+    overflow-x: auto; /* Allow horizontal scrolling */
+  }
+
+  .img-item img {
+    width: 80px; /* Smaller thumbnails for mobile */
+    height: 100px;
+  }
+
+  .product-title {
+    font-size: 28px; /* Smaller font size for mobile */
+  }
+
+  .product-content {
+    padding: 0.5rem; /* Reduce padding for mobile */
+  }
+
+  .purchase-info {
+    flex-direction: column; /* Stack buttons vertically on mobile */
+  }
+
+  .purchase-info .btn-shop {
+    width: 100%; /* Full-width buttons on mobile */
+    margin-bottom: 10px;
+  }
+}
+.productpagebanner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.productpagebanner img {
+  width: 100%;
+  max-width: 1400px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+/* revieews section */
+/* .product-content {
   padding: 1rem;
   box-sizing: border-box;
   overflow: hidden;
-}
+} */
 .REVIEWS {
   margin: 40px;
 }
@@ -288,62 +376,4 @@
   box-sizing: border-box;
   overflow-x: auto;
   scrollbar-width: none;
-}
-
-.product-imgs {
-  margin-top: 15px;
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-}
-.card {
-  display: grid;
-  grid-template-columns: 60% 40%;
-  grid-gap: 1.5rem;
-  box-sizing: border-box;
-}
-.product-content {
-  padding-top: 0;
-  background-color: white;
-}
-.card-wrapper {
-  /* height: 100vh; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-  .card {
-    grid-template-columns: 1fr; /* Switch to single column on smaller screens */
-  }
-
-  .img-select {
-    flex-direction: column; /* Thumbnails remain horizontal on mobile */
-    width: 300px;
-    overflow-x: auto; /* Allow horizontal scrolling */
-  }
-
-  .img-item img {
-    width: 80px; /* Smaller thumbnails for mobile */
-    height: 100px;
-  }
-
-  .product-title {
-    font-size: 28px; /* Smaller font size for mobile */
-  }
-
-  .product-content {
-    padding: 0.5rem; /* Reduce padding for mobile */
-  }
-
-  .purchase-info {
-    flex-direction: column; /* Stack buttons vertically on mobile */
-  }
-
-  .purchase-info .btn-shop {
-    width: 100%; /* Full-width buttons on mobile */
-    margin-bottom: 10px;
-  }
 }

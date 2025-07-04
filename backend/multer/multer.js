@@ -70,3 +70,4 @@ export const uploadProductFiles = upload.fields([
   { name: "images", maxCount: 3 },
   { name: "sizeChart", maxCount: 1 },
 ]);
+export const uploadReviewImage = upload.single("reviewImage");

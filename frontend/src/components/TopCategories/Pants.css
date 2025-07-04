@@ -9,4 +9,5 @@
 }
 .pantsimagehover {
   transition: transform 0.4s ease;
+  border-radius: inherit;
 }

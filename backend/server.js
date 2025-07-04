@@ -10,6 +10,7 @@ import productRoutes from "./routes/productRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import deliveryRoutes from "./routes/deliveryRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 import bannerRoutes from "./routes/bannerRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import cors from "cors";
@@ -18,7 +19,7 @@ connectDB();
 const app = express();
 app.use(
   cors({
-    origin: ["https://vyavar.vercel.app"], // Adjust for your frontend's URL
+    origin: ["http://localhost:3000"], // Adjust for your frontend's URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -39,6 +40,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/banners", bannerRoutes);
 app.use("/api/delivery", deliveryRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/payment", paymentRoutes);
 
 app.options("*", cors());
 

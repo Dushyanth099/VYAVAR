@@ -11,6 +11,7 @@ const reviewSchema = mongoose.Schema(
       ref: "User", //relation betwen the review and the user
     },
     approved: { type: Boolean, default: false },
+    image: { type: String },
   },
   {
     timestamps: true,

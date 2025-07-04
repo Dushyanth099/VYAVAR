@@ -130,25 +130,36 @@ const getProductById = asyncHandler(async (req, res) => {
 
 const addToCart = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  const { qty } = req.body;
+  const { qty, size, cartItemId } = req.body;
   const product = await Product.findById(req.params.id);
-  const user = await User.findById(userId).populate("cartItems.product");
   if (!product) {
     res.status(404);
     throw new Error("Product not found");
+  }
+  const user = await User.findById(userId).populate("cartItems.product");
+  // Find existing cart item
+
+  if (cartItemId) {
+    // Update existing cart item directly by ID
+    const cartItem = user.cartItems.id(cartItemId);
+    if (cartItem) {
+      cartItem.qty = qty;
+      cartItem.size = size;
+      cartItem.price = qty * product.price;
+    }
   } else {
-    // Find existing cart item
-    const existingCartItem = user.cartItems.find(
-      (item) => item.product._id.toString() === product._id.toString()
+    // Fallback: same product + same size
+    const existingItem = user.cartItems.find(
+      (item) =>
+        item.product._id.toString() === product._id.toString() &&
+        item.size === size
     );
 
-    if (existingCartItem) {
-      // Update quantity if item exists
-      existingCartItem.qty = qty;
-      existingCartItem.price = qty * product.price;
+    if (existingItem) {
+      existingItem.qty = qty;
+      existingItem.price = qty * product.price;
     } else {
-      // Add new item to cart if it doesn't exist
-      user.cartItems.push({ product, qty, price: qty * product.price });
+      user.cartItems.push({ product, qty, size, price: qty * product.price });
     }
   }
   await user.save();
@@ -536,12 +547,18 @@ const createproductreview = asyncHandler(async (req, res) => {
       console.log("❌ Product not found");
       return res.status(404).json({ message: "Product not found" });
     }
+    // Handle Cloudinary image upload
+    let imageUrl = "";
+    if (req.file) {
+      imageUrl = req.file.path; // Cloudinary returns the URL in path
+    }
     const review = {
       name: req.user.name,
       rating: Number(rating),
       comment,
       user: req.user._id,
       approved: false,
+      image: imageUrl,
     };
     product.reviews.push(review);
     product.numReviews = product.reviews.length;

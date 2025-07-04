@@ -8,6 +8,8 @@ import {
   Text,
   Divider,
   Grid,
+  Flex,
+  Icon,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +19,7 @@ import {
   savepaymentmethod,
   fetchCart,
 } from "../../actions/cartActions";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 import Payment from "./PaypalPayment";
 import { fetchShippingRates } from "../../actions/deliveryActions";
 import { saveShippingCost } from "../../actions/cartActions";
@@ -26,6 +29,7 @@ import { createShipment } from "../../actions/deliveryActions";
 import { CreateOrder } from "../../actions/orderActions";
 import { getUserDetails } from "../../actions/userActions";
 import PaymentModal from "./PaymentModal";
+import RazorpayButton from "./RazorpayPayment";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -187,134 +191,163 @@ const Checkout = () => {
   }, [navigate, success, order]);
 
   return (
-    <Box p={6} maxW="container.xl" mx="auto">
-      <Grid templateColumns={{ base: "1fr" }} gap={8}>
-        {/* Right Side - Order Summary */}
-        <VStack
-          align="start"
-          spacing={4}
-          p={4}
-          borderWidth="1px"
-          borderRadius="lg"
-          shadow="md"
-        >
-          <Box
-            borderWidth="2px"
-            borderRadius="md"
+    <>
+      <Box p={6} maxW="container.xl" mx="auto">
+        <Grid templateColumns={{ base: "1fr" }} gap={8}>
+          {/* Right Side - Order Summary */}
+          <VStack
+            align="start"
+            spacing={4}
             p={4}
-            mb={5}
-            w="full"
-            bg="white"
-            borderColor="gray.100"
+            borderWidth="1px"
+            borderRadius="lg"
             shadow="md"
           >
-            <Text fontSize="m" fontWeight="bold" mb={2}>
-              DELIVERY OPTION
-            </Text>
-            <Divider />
-            {rates && rates.length > 0 ? (
-              rates.map((rate, index) => {
-                const serviceName =
-                  rate.serviceDescription?.description || "Unknown Service";
-                const netCharge =
-                  rate.ratedShipmentDetails[0]?.totalNetCharge || "N/A";
-
-                return (
-                  <Box
-                    key={index}
-                    borderWidth="2px"
-                    borderRadius="md"
-                    p={4}
-                    mt="3"
-                    mb={3}
-                    w="full"
-                    bg={
-                      selectedRate?.serviceType === rate.serviceType
-                        ? "red.50"
-                        : "gray.50"
-                    }
-                    borderColor={
-                      selectedRate?.serviceType === rate.serviceType
-                        ? "red.200"
-                        : "gray.100"
-                    }
-                  >
-                    <HStack spacing={4}>
-                      <input
-                        type="radio"
-                        name="shippingRate"
-                        value={rate.serviceType}
-                        onChange={() => handleShippingRateChange(rate)}
-                      />
-                      <VStack align="start" spacing={1}>
-                        <Text fontWeight="bold" fontSize="md">
-                          {serviceName}
-                        </Text>
-                        <Text color="gray.600">
-                          RS. <strong>{netCharge.toFixed(2)}</strong>
-                        </Text>
-                        <Text fontSize="sm" color="gray.500">
-                          Estimated Delivery: 2-3 days
-                        </Text>
-                      </VStack>
-                    </HStack>
-                  </Box>
-                );
-              })
-            ) : (
-              <Text>
-                No shipping rates available. Please check your address details.
-              </Text>
-            )}
-          </Box>
-          <Box
-            borderWidth="2px"
-            borderRadius="lg"
-            p={4}
-            shadow="lg"
-            w="full"
-            bg="white"
-            borderColor="gray.200"
-          >
+            {/* <Box
+              borderWidth="2px"
+              borderRadius="lg"
+              p={4}
+              shadow="lg"
+              w="full"
+              bg="white"
+              borderColor="gray.200"
+            > */}
             <Text fontSize="l" fontWeight="bold" p="2">
-              BILL DETAILS
+              NOTE
             </Text>
-
             <Divider />
+            <Flex align="center" mt={1}>
+              <Icon
+                as={AiOutlineInfoCircle}
+                boxSize={4}
+                mr={2}
+                color="blue.500"
+              />
+              <Text fontSize="sm" color="gray.500">
+                Cash on Delivery option is not available
+              </Text>
+            </Flex>
 
-            <HStack justify="space-between" w="full" p="3">
-              <Text>Subtotal:</Text>
-              <Text color={"grey"}>Rs. {subtotal.toFixed(2)}</Text>
-            </HStack>
-            <HStack justify="space-between" w="full" p="3">
-              <Text>Shipping:</Text>
-              <Text color={"grey"}>Rs. {shippingCost.toFixed(2)}</Text>
-            </HStack>
-            <HStack justify="space-between" w="full" p="3">
-              <Text>Taxes (5%):</Text>
-              <Text color={"grey"}>Rs. {taxAmount.toFixed(2)}</Text>
-            </HStack>
-            <HStack justify="space-between" w="full" p="3">
-              <Text fontSize="lg" fontWeight="bold">
-                Final Total:
+            <Flex align="center">
+              <Icon
+                as={AiOutlineInfoCircle}
+                boxSize={4}
+                mr={2}
+                color="blue.500"
+              />
+              <Text fontSize="sm" color="gray.500">
+                10 days return policy on all products.
               </Text>
-              <Text fontSize="lg" fontWeight="bold">
-                Rs. {totalPrice.toFixed(2)}
+            </Flex>
+
+            <Flex align="center">
+              <Icon
+                as={AiOutlineInfoCircle}
+                boxSize={4}
+                mr={2}
+                color="blue.500"
+              />
+              <Text fontSize="sm" color="gray.500">
+                Please ensure the product is unused and in original packaging
+                for returns.
               </Text>
-            </HStack>
-          </Box>
-          <Button bg="#000346" color="white" size="lg" w="full" onClick={onOpen}>
-            Pay ₹{totalPrice}
-          </Button>
-        </VStack>
-      </Grid>
-      <PaymentModal
-        isOpen={isOpen}
-        onClose={onClose}
-        handleOrder={handleOrder}
-        totalPrice={totalPrice}
-      />
-    </Box>
+            </Flex>
+
+            <Flex align="center">
+              <Icon
+                as={AiOutlineInfoCircle}
+                boxSize={4}
+                mr={2}
+                color="blue.500"
+              />
+              <Text fontSize="sm" color="gray.500">
+                Delivery timelines may vary based on your location.
+              </Text>
+            </Flex>
+
+            <Flex align="center">
+              <Icon
+                as={AiOutlineInfoCircle}
+                boxSize={4}
+                mr={2}
+                color="blue.500"
+              />
+              <Text fontSize="sm" color="gray.500">
+                For any queries, contact our support team.
+              </Text>
+            </Flex>
+
+            <Flex align="center">
+              <Icon
+                as={AiOutlineInfoCircle}
+                boxSize={4}
+                mr={2}
+                color="blue.500"
+              />
+              <Text fontSize="sm" color="gray.500">
+                All prices are inclusive of taxes.
+              </Text>
+            </Flex>
+            {/* </Box> */}
+          </VStack>
+          <VStack
+            align="start"
+            spacing={4}
+            p={4}
+            borderWidth="1px"
+            borderRadius="lg"
+            shadow="md"
+          >
+            <Box
+              borderWidth="2px"
+              borderRadius="lg"
+              p={4}
+              shadow="lg"
+              w="full"
+              bg="white"
+              borderColor="gray.200"
+            >
+              <Text fontSize="l" fontWeight="bold" p="2">
+                BILL DETAILS
+              </Text>
+
+              <Divider />
+
+              <HStack justify="space-between" w="full" p="3">
+                <Text>Subtotal:</Text>
+                <Text color={"grey"}>Rs. {subtotal.toFixed(2)}</Text>
+              </HStack>
+              <HStack justify="space-between" w="full" p="3">
+                <Text>Shipping:</Text>
+                <Text color={"grey"}>FREE</Text>
+              </HStack>
+              <HStack justify="space-between" w="full" p="3">
+                <Text>Taxes (5%):</Text>
+                <Text color={"grey"}>Rs. {taxAmount.toFixed(2)}</Text>
+              </HStack>
+              <HStack justify="space-between" w="full" p="3">
+                <Text fontSize="lg" fontWeight="bold">
+                  Final Total:
+                </Text>
+                <Text fontSize="lg" fontWeight="bold">
+                  Rs. {totalPrice.toFixed(2)}
+                </Text>
+              </HStack>
+            </Box>
+            {/* <Button
+              bg="#000346"
+              color="white"
+              size="lg"
+              w="full"
+              onClick={onOpen}
+            >
+              Pay ₹{totalPrice}
+            </Button> */}
+        <RazorpayButton handleOrder={handleOrder} amount={totalPrice} />
+          </VStack>
+        </Grid>
+      </Box>
+    </>
   );
 };
 

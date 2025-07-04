@@ -57,6 +57,10 @@ const userSchema = mongoose.Schema(
           default: 1,
         },
         price: { type: Number, required: true },
+        size: {
+          type: String,
+          required: true,
+        },
       },
     ],
     orderHistory: [

@@ -59,12 +59,17 @@ const Pants = () => {
                 overflow="hidden"
                 color="black"
                 width="270px"
-                height="380px"
+                height="490px"
                 position="relative"
               >
                 {/* Product Image */}
                 <Link to={`/product/${product._id}`}>
-                  <Box height="380px" width="100%" overflow="hidden">
+                  <Box
+                    height="380px"
+                    width="100%"
+                    overflow="hidden"
+                    borderRadius="xl"
+                  >
                     {/* Discount Badge on Top-Left */}
                     {product.discount > 0 && (
                       <div className="discountBadge">

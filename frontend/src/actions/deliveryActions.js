@@ -26,7 +26,7 @@ export const fetchShippingRates =
         },
       };
       const { data } = await axios.post(
-        `${API_URL}/api/delivery/shipmentrates`,
+        `/api/delivery/shipmentrates`,
         { userAddress, productId },
         config
       );
@@ -68,7 +68,7 @@ export const createShipment =
       };
 
       const { data } = await axios.post(
-        `${API_URL}/api/delivery/createShipment`,
+        `/api/delivery/createShipment`,
         shipmentDetails, // Sending only shipment data
         config
       );

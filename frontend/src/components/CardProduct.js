@@ -71,7 +71,9 @@ const CardProduct = ({ product }) => {
       isClosable: true,
     });
     setIncart(true);
-    dispatch(addToCart(product._id, 1));
+    dispatch(
+      addToCart(product._id, 1, product.productdetails?.sizes?.[0] || "")
+    );
     dispatch(toggleFavorite(product._id));
   };
   const handlePrevImage = () => {

@@ -12,14 +12,11 @@ import { addToCart } from "../../actions/cartActions";
 import { AiFillShop } from "react-icons/ai";
 import ShareButton from "./ShareButton";
 import { MdDoNotDisturb } from "react-icons/md";
+import ProductReviews from "./ProductReviews";
 import {
   Image,
-  Select,
   Button,
-  FormControl,
-  FormLabel,
-  Textarea,
-  toast,
+  Badge,
   Flex,
   useToast,
   Heading,
@@ -43,6 +40,7 @@ import Trust from "../../components/Trustdetails/Trust";
 import { listMyOrders } from "../../actions/orderActions";
 import ProductSpecification from "./ProductSpecification";
 import FavoriteButton from "../../pages/Favourites/Favorites";
+import viyavarbanner from "../../assets/viyavarbrandimage.png";
 
 const Productpage = () => {
   const { id } = useParams();
@@ -79,6 +77,33 @@ const Productpage = () => {
   const availableSizes = product?.productdetails?.sizes || [];
   const [selectedSize, setSelectedSize] = useState("");
   const [showPDF, setShowPDF] = useState(false);
+  const [reviewImage, setReviewImage] = useState(null);
+  const rightColumnRef = useRef(null);
+  const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (rightColumnRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } =
+          rightColumnRef.current;
+        const bottom = scrollHeight - scrollTop <= clientHeight + 10; // Adding small buffer
+        setIsScrolledToBottom(bottom);
+      }
+    };
+
+    const currentRef = rightColumnRef.current;
+    if (currentRef) {
+      currentRef.addEventListener("scroll", handleScroll);
+      // Initial check
+      handleScroll();
+    }
+
+    return () => {
+      if (currentRef) {
+        currentRef.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
+
   const togglePDF = () => setShowPDF((prev) => !prev);
   imgBtns.forEach((imgItem) => {
     imgItem.addEventListener("click", (event) => {
@@ -137,14 +162,27 @@ const Productpage = () => {
   }, [dispatch, id, successProductReview, userInfo, product.category]);
 
   // product.reviews
-  const submithanlder = () => {
-    dispatch(
-      createproductReview(id, {
-        rating,
-        comment,
-      })
-    );
-  };
+  // const submithanlder = () => {
+  //   dispatch(
+  //     createproductReview(
+  //       id,
+  //       {
+  //         rating,
+  //         comment,
+  //       },
+  //       reviewImage
+  //     )
+  //   );
+  // };
+  // Calculate average rating
+  const approvedReviews = product.reviews?.filter((r) => r.approved) || [];
+  const averageRating =
+    approvedReviews.length > 0
+      ? (
+          approvedReviews.reduce((sum, review) => sum + review.rating, 0) /
+          approvedReviews.length
+        ).toFixed(1)
+      : 0;
   //Handler of button add to cart
   const addToCartHandler = () => {
     if (!userInfo) {
@@ -159,7 +197,20 @@ const Productpage = () => {
       navigate("/login");
       return;
     }
-    dispatch(addToCart(product._id, qty));
+    // Check if size is required and not selected
+    if (availableSizes.length > 0 && !selectedSize) {
+      toast({
+        title: "Select Size",
+        position: "top-right",
+        description: "Please select a size before adding to cart.",
+        status: "warning",
+        duration: 4000,
+        position: "top-right",
+        isClosable: true,
+      });
+      return;
+    }
+    dispatch(addToCart(product._id, qty, selectedSize));
     navigate("/cart");
     toast({
       title: "Product added to cart",
@@ -269,6 +320,23 @@ const Productpage = () => {
                   <Text fontSize="13px" color="gray.500" mb={3}>
                     (Inclusive of all taxes)
                   </Text>
+                  {approvedReviews.length > 0 && (
+                    <Flex align="center">
+                      <Badge
+                        colorScheme="blue"
+                        fontSize="md"
+                        px={2}
+                        py={1}
+                        borderRadius="md"
+                      >
+                        {averageRating} ★
+                      </Badge>
+                      <Text ml={2} fontSize="sm" color="gray.600">
+                        ({approvedReviews.length}{" "}
+                        {approvedReviews.length === 1 ? "review" : "reviews"})
+                      </Text>
+                    </Flex>
+                  )}
                 </Text>
                 <Divider my={3} />
                 <p
@@ -317,7 +385,7 @@ const Productpage = () => {
                           onClick={togglePDF}
                           mb={2}
                           _hover={{
-                            bg:"black",
+                            bg: "black",
                           }}
                         >
                           {showPDF ? "Close" : "Size Chart"}
@@ -408,67 +476,17 @@ const Productpage = () => {
                   <FeaturesSection />
                   <ProductSpecification product={product} />
                 </div>{" "}
-              </div>
-            </div>
-          </div>
-        )}
-        {isPurchased && (
-          <div className="REVIEWS">
-            <h1>Reviews :</h1>
-            {product.reviews.length === 0 && <h2>NO REVIEWS</h2>}
-            <div>
-              {product.reviews &&
-                product.reviews
-                  .filter((review) => review.approved)
-                  .map((review) => (
-                    <div key={review._id} className="review">
-                      <h4>{review.name}</h4>
-                      <div className="Ratingreview">
-                        <Rating value={review.rating} />
-                      </div>
-                      <p className="commentreview">{review.comment}</p>
-                      <p className="datereview">
-                        {review.createdAt.substring(0, 10)}
-                      </p>
-                    </div>
-                  ))}
-
-              <div className="createreview">
-                <h1>Create New Review :</h1>
-                {errorProductReview && <h2>{errorProductReview}</h2>}
-                {userInfo ? (
-                  <FormControl>
-                    <FormLabel>Rating :</FormLabel>
-                    <Select onChange={(e) => setrating(e.target.value)}>
-                      <option value="1">1 POOR</option>
-                      <option value="2">2 FAIR</option>
-                      <option value="3">3 GOOD</option>
-                      <option value="4">4 VERY GOOD</option>
-                      <option value="5">5 EXCELLENT</option>
-                    </Select>
-                    <FormLabel>Comment :</FormLabel>
-                    <Textarea
-                      onChange={(e) => setcomment(e.target.value)}
-                      placeholder="Leave Comment here :"
-                    />
-                    <Button
-                      className="
-                    submitbutton"
-                      colorScheme="blue"
-                      onClick={submithanlder}
-                    >
-                      Submit
-                    </Button>
-                  </FormControl>
-                ) : (
-                  <>
-                    Please <Link to="/login">Sign In</Link> To write a review.
-                  </>
+                {isPurchased && (
+                  <ProductReviews product={product} isPurchased={isPurchased} />
                 )}
               </div>
             </div>
           </div>
         )}
+        <div className="productpagebanner">
+          <img className="img-fluid" src={viyavarbanner} alt="banner" />
+        </div>
+
         {/* Related Products Section */}
         <div
           className="related-products-section"

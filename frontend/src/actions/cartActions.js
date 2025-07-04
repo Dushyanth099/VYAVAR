@@ -11,25 +11,27 @@ import {
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const addToCart = (id, qty) => async (dispatch, getState) => {
-  const {
-    userLogin: { userInfo },
-  } = getState();
-  const config = {
-    headers: { Authorization: `Bearer ${userInfo.token}` },
-  };
+export const addToCart =
+  (id, qty, size, cartItemId = null) =>
+  async (dispatch, getState) => {
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    };
 
-  const { data } = await axios.post(
-    `${API_URL}/api/products/${id}/addtocart`,
-    { id, qty },
-    config
-  );
-  console.log("Cart Items data", data);
-  dispatch({
-    type: CART_ADD_ITEM,
-    payload: data.cartItems,
-  });
-};
+    const { data } = await axios.post(
+      `/api/products/${id}/addtocart`,
+      { qty, size, cartItemId },
+      config
+    );
+    console.log("Cart Items data", data);
+    dispatch({
+      type: CART_ADD_ITEM,
+      payload: data.cartItems,
+    });
+  };
 
 export const fetchCart = () => async (dispatch, getState) => {
   try {
@@ -40,7 +42,7 @@ export const fetchCart = () => async (dispatch, getState) => {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     };
 
-    const { data } = await axios.get(`${API_URL}/api/products/getcart`, config);
+    const { data } = await axios.get(`/api/products/getcart`, config);
 
     dispatch({
       type: CART_FETCH_ITEMS,
@@ -63,7 +65,7 @@ export const removeFromCart = (cartItemId) => async (dispatch, getState) => {
     };
     console.log("Deleting cart item ID:", cartItemId); // Debugging log
     const { data } = await axios.delete(
-      `${API_URL}/api/products/${cartItemId}/deletecart`,
+      `/api/products/${cartItemId}/deletecart`,
       config
     );
     dispatch({

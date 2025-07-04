@@ -80,6 +80,7 @@ import {
   billingInvoiceCreateReducer,
   billingInvoiceDetailsReducer,
 } from "./reducers/billingInvoiceReducers";
+import { razorpayOrderReducer } from "./reducers/paymentReducer";
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -146,6 +147,7 @@ const reducer = combineReducers({
   deliveryMyTransactions: deliveryMyTransactionsReducer,
   billingInvoiceCreate: billingInvoiceCreateReducer,
   billingInvoiceDetails: billingInvoiceDetailsReducer,
+  razorpayOrder: razorpayOrderReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

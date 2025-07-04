@@ -30,7 +30,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 export const listBanners = () => async (dispatch) => {
   try {
     dispatch({ type: BANNER_LIST_REQUEST });
-    const { data } = await axios.get(`${API_URL}/api/banners/banners`);
+    const { data } = await axios.get(`/api/banners/banners`);
     dispatch({ type: BANNER_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -60,7 +60,7 @@ export const addBanner = (bannerData) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `${API_URL}/api/banners/banner`,
+      `/api/banners/banner`,
       bannerData,
       config
     );
@@ -93,7 +93,7 @@ export const deleteBanner = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`${API_URL}/api/banners/banners/${id}`, config);
+    await axios.delete(`/api/banners/banners/${id}`, config);
 
     dispatch({ type: BANNER_DELETE_SUCCESS });
   } catch (error) {
@@ -121,7 +121,7 @@ export const uploadVideoBanner = (formData) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `${API_URL}/api/banners/addvideobanner`,
+      `/api/banners/addvideobanner`,
       formData,
       config
     );
@@ -152,7 +152,7 @@ export const listVideoBanners =
         },
       };
       const { data } = await axios.get(
-        `${API_URL}/api/banners/getvideobanner?productId=${productId}`,
+        `/api/banners/getvideobanner?productId=${productId}`,
         config
       );
       dispatch({ type: VIDEO_BANNER_LIST_SUCCESS, payload: data });
@@ -178,7 +178,7 @@ export const deleteVideoBanner =
         },
       };
       await axios.delete(
-        `${API_URL}/api/banners/deletevideobanner/${productId}/${videoId}`,
+        `/api/banners/deletevideobanner/${productId}/${videoId}`,
         config
       );
       dispatch({ type: VIDEO_BANNER_DELETE_SUCCESS, payload: videoId });
@@ -203,7 +203,7 @@ export const listUserVideoBanners = () => async (dispatch) => {
       },
     };
     const { data } = await axios.get(
-      `${API_URL}/api/banners/getuservideobanners`,
+      `/api/banners/getuservideobanners`,
       config
     );
 

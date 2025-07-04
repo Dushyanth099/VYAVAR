@@ -36,7 +36,7 @@ export const depositRequest =
         },
       };
 
-      await axios.post(`${API_URL}/api/delivery/deposit`, { amount, orderId }, config);
+      await axios.post(`/api/delivery/deposit`, { amount, orderId }, config);
 
       dispatch({ type: DELIVERY_DEPOSIT_SUCCESS });
     } catch (error) {
@@ -64,7 +64,7 @@ export const withdrawRequest =
       };
 
       await axios.post(
-        `${API_URL}/api/delivery/request-withdraw`,
+        `/api/delivery/request-withdraw`,
         { amount, orderId },
         config
       );
@@ -92,7 +92,7 @@ export const getMyTransactions = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`${API_URL}/api/delivery/my-transactions`, config);
+    const { data } = await axios.get(`/api/delivery/my-transactions`, config);
 
     dispatch({ type: DELIVERY_GET_MY_TRANSACTIONS_SUCCESS, payload: data });
   } catch (error) {
@@ -113,7 +113,7 @@ export const fetchPendingDeposits = () => async (dispatch, getState) => {
     } = getState();
     const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
-    const { data } = await axios.get(`${API_URL}/api/admin/pending-deposits`, config);
+    const { data } = await axios.get(`/api/admin/pending-deposits`, config);
 
     dispatch({ type: ADMIN_GET_PENDING_DEPOSITS_SUCCESS, payload: data });
   } catch (error) {
@@ -134,7 +134,7 @@ export const confirmDeposit =
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
       await axios.put(
-        `${API_URL}/api/admin/confirm-deposit/${orderId}/${transactionId}`,
+        `/api/admin/confirm-deposit/${orderId}/${transactionId}`,
         {},
         config
       );
@@ -159,7 +159,7 @@ export const fetchPendingWithdrawals = () => async (dispatch, getState) => {
     } = getState();
     const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
-    const { data } = await axios.get(`${API_URL}/api/admin/pending-withdrawals`, config);
+    const { data } = await axios.get(`/api/admin/pending-withdrawals`, config);
 
     dispatch({ type: ADMIN_GET_PENDING_WITHDRAWALS_SUCCESS, payload: data });
   } catch (error) {
@@ -180,7 +180,7 @@ export const approveWithdrawal =
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
       await axios.put(
-        `${API_URL}/api/admin/approve-withdraw/${orderId}/${transactionId}`,
+        `/api/admin/approve-withdraw/${orderId}/${transactionId}`,
         {},
         config
       );
@@ -205,7 +205,7 @@ export const rejectWithdrawal =
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
       await axios.put(
-        `${API_URL}/api/admin/reject-withdraw/${orderId}/${transactionId}`,
+        `/api/admin/reject-withdraw/${orderId}/${transactionId}`,
         { reason },
         config
       );

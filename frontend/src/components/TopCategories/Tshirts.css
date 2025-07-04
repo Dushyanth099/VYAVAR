@@ -50,6 +50,7 @@
 }
 .tshirtimghover {
   transition: transform 0.4s ease;
+  border-radius: inherit;
 }
 .tshirtimghover:hover {
   transform: scale(1.08);

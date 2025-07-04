@@ -93,7 +93,17 @@ const CartPage = () => {
                     </Text>
                     <Flex gap={3} mt={2}>
                       <Select
-                        defaultValue={item.product.size || "XS"}
+                        value={item.size || "XS"}
+                        onChange={(e) =>
+                          dispatch(
+                            addToCart(
+                              item.product._id,
+                              item.qty,
+                              e.target.value,
+                              item._id
+                            )
+                          )
+                        }
                         w="80px"
                         size="sm"
                       >
@@ -105,10 +115,14 @@ const CartPage = () => {
                       </Select>
 
                       <Select
-                        defaultValue={item.qty}
+                        value={item.qty}
                         onChange={(e) =>
                           dispatch(
-                            addToCart(item.product._id, Number(e.target.value))
+                            addToCart(
+                              item.product._id,
+                              Number(e.target.value),
+                              item.size
+                            )
                           )
                         }
                         w="80px"

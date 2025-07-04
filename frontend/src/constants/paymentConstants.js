@@ -1,0 +1,4 @@
+// constants/paymentConstants.js
+export const RAZORPAY_ORDER_REQUEST = "RAZORPAY_ORDER_REQUEST";
+export const RAZORPAY_ORDER_SUCCESS = "RAZORPAY_ORDER_SUCCESS";
+export const RAZORPAY_ORDER_FAIL = "RAZORPAY_ORDER_FAIL";

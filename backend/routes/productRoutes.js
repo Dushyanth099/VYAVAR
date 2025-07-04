@@ -14,13 +14,15 @@ import {
   approveReview,
   getPendingReviews,
 } from "../controlers/productControler.js";
-import { uploadProductFiles } from "../multer/multer.js";
+import { uploadProductFiles, uploadReviewImage } from "../multer/multer.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
 router.route("/").get(getProducts);
 router.route("/create").post(protect, admin, uploadProductFiles, createProduct);
 router.post("/upload", protect, admin, uploadProducts);
-router.route("/:id/reviews").post(protect, createproductreview);
+router
+  .route("/:id/reviews")
+  .post(protect, uploadReviewImage, createproductreview);
 router.route("/getcart").get(protect, getCart);
 router.route("/:cartItemId/deletecart").delete(protect, deleteCartItem);
 router.route("/:id/addtocart").post(protect, addToCart);

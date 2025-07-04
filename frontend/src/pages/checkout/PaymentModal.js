@@ -12,6 +12,7 @@ import {
   HStack,
   Text,
   Icon,
+  Image,
   Box,
   Radio,
   RadioGroup,
@@ -28,6 +29,8 @@ import { useDispatch } from "react-redux";
 import { savepaymentmethod } from "../../actions/cartActions";
 import PaypalPayment from "./PaypalPayment";
 import StripePayment from "./Stripepayment";
+import RazorpayButton from "./RazorpayPayment";
+import razorpayicon from "../../assets/razorpayicon.png";
 
 const PaymentModal = ({ isOpen, onClose, handleOrder, totalPrice }) => {
   const dispatch = useDispatch();
@@ -129,6 +132,12 @@ const PaymentModal = ({ isOpen, onClose, handleOrder, totalPrice }) => {
                       <Text>Pay with PayPal</Text>
                     </HStack>
                   </Radio>
+                  <Radio value="Razorpay">
+                    <HStack>
+                      <Image src={razorpayicon} boxSize="20px" />
+                      <Text>Pay with Razorpay</Text>
+                    </HStack>
+                  </Radio>
                 </Stack>
               </RadioGroup>
 
@@ -145,6 +154,9 @@ const PaymentModal = ({ isOpen, onClose, handleOrder, totalPrice }) => {
                     totalPrice={totalPrice}
                     onSuccess={handleOrder}
                   />
+                )}
+                {onlinePaymentMethod === "Razorpay" && (
+                  <RazorpayButton amount={totalPrice} />
                 )}
               </Box>
             </VStack>
